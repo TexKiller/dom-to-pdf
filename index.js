@@ -87,6 +87,7 @@ downloadPdf = (dom, options, cb) => {
   let proxyUrl;
   let compression = 'NONE';
   let scale;
+  let download = false;
   let opts;
   let offsetHeight;
   let offsetWidth;
@@ -99,7 +100,7 @@ downloadPdf = (dom, options, cb) => {
     format: 'a4'
   };
 
-  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale} = options);
+  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale, download} = options);
 
   overlayCSS = {
     position: 'fixed',
@@ -283,7 +284,9 @@ downloadPdf = (dom, options, cb) => {
     if (typeof cb === "function") {
       cb(pdf);
     }
-    return pdf.save(filename);
+    if(download)
+      return pdf.save(filename);
+    return pdf;
   }).catch(error => {
     // Remove overlay
     document.body.removeChild(overlay);
