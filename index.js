@@ -93,6 +93,7 @@ downloadPdf = (dom, options, cb) => {
   let offsetWidth;
   let scaleObj;
   let style;
+  let pdf;
   const transformOrigin = 'top left';
   const pdfOptions = {
     orientation: 'p',
@@ -100,7 +101,7 @@ downloadPdf = (dom, options, cb) => {
     format: 'a4'
   };
 
-  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale, download} = options);
+  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale, download, pdf} = options);
 
   overlayCSS = {
     position: 'fixed',
@@ -241,13 +242,12 @@ downloadPdf = (dom, options, cb) => {
     let pageCanvas;
     let pageCtx;
     let pageHeight;
-    let pdf;
     let pxFullHeight;
     let w;
     // Remove overlay
     document.body.removeChild(overlay);
     // Initialize the PDF.
-    pdf = new jsPDF(pdfOptions);
+    pdf = pdf || new jsPDF(pdfOptions);
     // Calculate the number of pages.
     pxFullHeight = canvas.height;
     nPages = Math.ceil(pxFullHeight / pageHeightPx);
