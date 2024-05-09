@@ -94,6 +94,7 @@ downloadPdf = (dom, options, cb) => {
   let scaleObj;
   let style;
   let pdf;
+  let maxPages;
   const transformOrigin = 'top left';
   const pdfOptions = {
     orientation: 'p',
@@ -101,7 +102,7 @@ downloadPdf = (dom, options, cb) => {
     format: 'a4'
   };
 
-  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale, download, pdf} = options);
+  ({filename, excludeClassNames = [], excludeTagNames = ['button', 'input', 'select'], overrideWidth, proxyUrl, compression, scale, download, pdf, maxPages} = options);
 
   overlayCSS = {
     position: 'fixed',
@@ -176,6 +177,9 @@ downloadPdf = (dom, options, cb) => {
       startPage = Math.floor(clientRect.top / pageHeightPx);
       endPage = Math.floor(clientRect.bottom / pageHeightPx);
       nPages = Math.abs(clientRect.bottom - clientRect.top) / pageHeightPx;
+      if (maxPages && nPages > maxPages) {
+        nPages = maxPages;
+      }
       // Turn on rules.before if the el is broken and is at most one page long.
       if (endPage !== startPage && nPages <= 1) {
         rules.before = true;
@@ -251,6 +255,9 @@ downloadPdf = (dom, options, cb) => {
     // Calculate the number of pages.
     pxFullHeight = canvas.height;
     nPages = Math.ceil(pxFullHeight / pageHeightPx);
+    if (maxPages && nPages < maxPages) {
+      nPages = maxPages;
+    }
     // Define pageHeight separately so it can be trimmed on the final page.
     pageHeight = a4Height;
     pageCanvas = document.createElement('canvas');
