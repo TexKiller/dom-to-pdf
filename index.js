@@ -248,8 +248,11 @@ downloadPdf = (dom, options, cb) => {
     let pageHeight;
     let pxFullHeight;
     let w;
+    let optPdf;
     // Remove overlay
     document.body.removeChild(overlay);
+    // Check if we have pdf from option
+    optPdf = !!pdf;
     // Initialize the PDF.
     pdf = pdf || new jsPDF(pdfOptions);
     // Calculate the number of pages.
@@ -281,7 +284,7 @@ downloadPdf = (dom, options, cb) => {
         continue;
       }
       // Add the page to the PDF.
-      if (page) {
+      if (optPdf || page) {
         pdf.addPage();
       }
       imgData = pageCanvas.toDataURL('image/PNG');
