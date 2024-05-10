@@ -177,8 +177,8 @@ downloadPdf = (dom, options, cb) => {
       startPage = Math.floor(clientRect.top / pageHeightPx);
       endPage = Math.floor(clientRect.bottom / pageHeightPx);
       nPages = Math.abs(clientRect.bottom - clientRect.top) / pageHeightPx;
-      if (maxPages && nPages > maxPages) {
-        nPages = maxPages;
+      if (maxPages && endPage >= maxPages) {
+        endPage = maxPages - 1;
       }
       // Turn on rules.before if the el is broken and is at most one page long.
       if (endPage !== startPage && nPages <= 1) {
