@@ -181,7 +181,7 @@ downloadPdf = (dom, options, cb) => {
         endPage = maxPages - 1;
       }
       // Turn on rules.before if the el is broken and is at most one page long.
-      if (endPage !== startPage && nPages <= 1) {
+      if (endPage > startPage && nPages <= 1) {
         rules.before = true;
       }
       // Before: Create a padding div to push the element to the next page.
