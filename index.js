@@ -236,6 +236,7 @@ downloadPdf = (dom, options, cb) => {
       style: style
     };
     opts = Object.assign(opts, scaleObj);
+    pageHeightPx = pageHeightPx * scale;
   }
 
   return domToImage.toCanvas(container, opts).then(canvas => {
